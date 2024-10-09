@@ -1,6 +1,5 @@
 import bitcoin from 'bitcoinjs-lib';
 import axios from 'axios';
-import { number } from 'bitcoinjs-lib/src/cjs/script';
 
 // Define types for UTXO and PayJoin response
 interface Utxo {
@@ -52,11 +51,10 @@ async function sendPayJoinRequest(psbt: bitcoin.Psbt): Promise<bitcoin.Psbt> {
 
 // Finalize, sign, and broadcast PayJoin transaction
 async function finalizeAndBroadcast(modifiedPsbt: bitcoin.Psbt, senderPrivateKey: string): Promise<void> {
-  const signedPsbt = new IDBTransaction(modifiedPsbt, senderPrivateKey);
-  const txHex = signedPsbt.extractTransaction().toHex();
+  const signedPsbt = new IDBTransaction;
 
   // Broadcast transaction
-  await broadcastTransaction(txHex);
+  broadcastTransaction(txHex);
 }
 function broadcastTransaction(txHex: any) {
   throw new Error('Function not implemented.');
