@@ -1,13 +1,24 @@
 import bitcoin from 'bitcoinjs-lib';
 import axios from 'axios';
-import { getUtxos, signTransaction, broadcastTransaction } from 'bitcoinjs-lib;'
+import { getUtxos, broadcastTransaction } from 'bitcoinjs-lib';
+
+// Define types for UTXO and PayJoin response
+interface Utxo {
+  txid: string;
+  vout: number;
+  hex: string;
+}
+
+interface PayJoinResponse {
+  psbt: string;
+}
 
 // Create initial PSBT
-async function createInitialPayJoinTx() {
+async function createInitialPayJoinTx(senderAddress: string, receiverAddress: string, amountToSend: number): Promise<bitcoin.Psbt> {
   const psbt = new bitcoin.Psbt();
   
   // Fetch UTXOs for sender
-  const utxos = await getUtxos(senderAddress);
+  const utxos: Utxo[] = await getUtxos(senderAddress);
 
   // Add UTXOs as inputs
   utxos.forEach(utxo => {
@@ -28,17 +39,19 @@ async function createInitialPayJoinTx() {
 }
 
 // Send PSBT to receiver's PayJoin endpoint
-async function sendPayJoinRequest(psbt) {
+async function sendPayJoinRequest(psbt: bitcoin.Psbt): Promise<bitcoin.Psbt> {
   const url = 'https://receiver.payjoin.endpoint/payjoin';
-  const response = await axios.post(url, { psbt: psbt.toBase64() });
+  
+  const response = await axios.post<PayJoinResponse>(url, { psbt: psbt.toBase64() });
   
   // Get the modified PSBT from receiver
   const modifiedPsbt = bitcoin.Psbt.fromBase64(response.data.psbt);
+  
   return modifiedPsbt;
 }
 
 // Finalize, sign, and broadcast PayJoin transaction
-async function finalizeAndBroadcast(modifiedPsbt) {
+async function finalizeAndBroadcast(modifiedPsbt: bitcoin.Psbt, senderPrivateKey: string): Promise<void> {
   const signedPsbt = await signTransaction(modifiedPsbt, senderPrivateKey);
   const txHex = signedPsbt.extractTransaction().toHex();
 
