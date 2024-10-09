@@ -1,0 +1,31 @@
+{
+  "name": "payjoin-react-native",
+  "version": "1.0.0",
+  "description": "Library to Payjoin written in react native",
+  "main": "index.ts",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Horus-Org/payjoin-react-native.git"
+  },
+  "keywords": [
+    "bitcoin",
+    "bip38",
+    "payjoin",
+    "wallet"
+  ],
+  "author": "horus-org",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Horus-Org/payjoin-react-native/issues"
+  },
+  "homepage": "https://github.com/Horus-Org/payjoin-react-native#readme",
+  "dependencies": {
+    "bip32": "^5.0.0-rc.0",
+    "bip39": "^3.1.0",
+    "bitcoinjs-lib": "^7.0.0-rc.0",
+    "react-native-crypto": "^2.2.0"
+  }
+}
