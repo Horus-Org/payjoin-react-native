@@ -1,6 +1,6 @@
 import bitcoin from 'bitcoinjs-lib';
 import axios from 'axios';
-import { getUtxos, broadcastTransaction } from 'bitcoinjs-lib';
+import { UTXO, Transaction} from 'bitcoinjs-lib';
 
 // Define types for UTXO and PayJoin response
 interface Utxo {
@@ -18,7 +18,7 @@ async function createInitialPayJoinTx(senderAddress: string, receiverAddress: st
   const psbt = new bitcoin.Psbt();
   
   // Fetch UTXOs for sender
-  const utxos: Utxo[] = await getUtxos(senderAddress);
+  const utxos: Utxo[] = await.UTXOs(senderAddress);
 
   // Add UTXOs as inputs
   utxos.forEach(utxo => {
