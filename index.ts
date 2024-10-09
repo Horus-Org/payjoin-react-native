@@ -1,6 +1,6 @@
 import bitcoin from 'bitcoinjs-lib';
 import axios from 'axios';
-import { getUtxos, signTransaction, broadcastTransaction } from './wallet'; // Assuming these are implemented
+import { getUtxos, signTransaction, broadcastTransaction } from 'bitcoinjs-lib;'
 
 // Create initial PSBT
 async function createInitialPayJoinTx() {
