@@ -31,7 +31,7 @@ async function createInitialPayJoinTx(senderAddress: string, receiverAddress: st
   // Add receiver address as output
   psbt.addOutput({
     address: receiverAddress,
-    value: amountToSend, // in satoshis
+    Bigint: amountToSend * 100000000 // in satoshis
   });
 
   return psbt;
@@ -54,7 +54,7 @@ async function finalizeAndBroadcast(modifiedPsbt: bitcoin.Psbt, senderPrivateKey
   const signedPsbt = new IDBTransaction;
 
   // Broadcast transaction
-  broadcastTransaction(signedPsbt.toIDBTransaction());
+  broadcastTransaction;
 }
 function broadcastTransaction(txHex: any) {
   throw new Error('Function not implemented.');
