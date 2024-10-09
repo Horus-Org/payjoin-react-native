@@ -1,6 +1,6 @@
 import bitcoin from 'bitcoinjs-lib';
 import axios from 'axios';
-import { UTXO, Transaction} from 'bitcoinjs-lib';
+import { number } from 'bitcoinjs-lib/src/cjs/script';
 
 // Define types for UTXO and PayJoin response
 interface Utxo {
