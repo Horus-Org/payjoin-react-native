@@ -31,7 +31,7 @@ async function createInitialPayJoinTx(senderAddress: string, receiverAddress: st
   // Add receiver address as output
   psbt.addOutput({
     address: receiverAddress,
-    Bigint: amountToSend * 100000000 // in satoshis
+    value: BigInt(amountToSend),
   });
 
   return psbt;
