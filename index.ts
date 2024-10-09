@@ -17,7 +17,7 @@ async function createInitialPayJoinTx(senderAddress: string, receiverAddress: st
   const psbt = new bitcoin.Psbt();
   
   // Fetch UTXOs for sender
-  const utxos: Utxo[] = await.UTXOs(senderAddress);
+  const utxos: Utxo[] = await fetchUtxos(senderAddress);
 
   // Add UTXOs as inputs
   utxos.forEach(utxo => {
@@ -57,6 +57,10 @@ async function finalizeAndBroadcast(modifiedPsbt: bitcoin.Psbt, senderPrivateKey
   broadcastTransaction;
 }
 function broadcastTransaction(txHex: any) {
+  throw new Error('Function not implemented.');
+}
+
+function fetchUtxos(senderAddress: string): Utxo[] | PromiseLike<Utxo[]> {
   throw new Error('Function not implemented.');
 }
 
