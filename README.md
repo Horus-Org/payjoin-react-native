@@ -35,8 +35,7 @@ npm i payjoin-react-native
 ```
 ## Roadmap
 
-- [ ] NPM
-- [ ] BIP-21
+- [ ] NPM / Open source
 - [ ] Example
 - [ ] Demo project
 
