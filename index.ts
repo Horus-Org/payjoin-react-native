@@ -58,3 +58,7 @@ async function finalizeAndBroadcast(modifiedPsbt: bitcoin.Psbt, senderPrivateKey
   // Broadcast transaction
   await broadcastTransaction(txHex);
 }
+function broadcastTransaction(txHex: any) {
+  throw new Error('Function not implemented.');
+}
+
