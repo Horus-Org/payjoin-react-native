@@ -1,2 +1,3 @@
-# payjoin-react-native
+# Payjoin React Native
+
 React Native Library to Payjoin
