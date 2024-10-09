@@ -54,7 +54,7 @@ async function finalizeAndBroadcast(modifiedPsbt: bitcoin.Psbt, senderPrivateKey
   const signedPsbt = new IDBTransaction;
 
   // Broadcast transaction
-  broadcastTransaction(txHex);
+  broadcastTransaction(signedPsbt.toIDBTransaction());
 }
 function broadcastTransaction(txHex: any) {
   throw new Error('Function not implemented.');
