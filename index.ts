@@ -52,7 +52,7 @@ async function sendPayJoinRequest(psbt: bitcoin.Psbt): Promise<bitcoin.Psbt> {
 
 // Finalize, sign, and broadcast PayJoin transaction
 async function finalizeAndBroadcast(modifiedPsbt: bitcoin.Psbt, senderPrivateKey: string): Promise<void> {
-  const signedPsbt = await signTransaction(modifiedPsbt, senderPrivateKey);
+  const signedPsbt = new IDBTransaction(modifiedPsbt, senderPrivateKey);
   const txHex = signedPsbt.extractTransaction().toHex();
 
   // Broadcast transaction
