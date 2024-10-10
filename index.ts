@@ -1,5 +1,4 @@
 import bitcoin from 'bitcoinjs-lib';
-import { crateInitialPayJoinTx , sendPayJoinRequest , finalizeAndBroadcast ,broadcastTransaction } from './index.ts';
 import axios from 'axios';
 
 // Define types for UTXO and PayJoin response
@@ -65,5 +64,5 @@ function fetchUtxos(senderAddress: string): Utxo[] | PromiseLike<Utxo[]> {
   throw new Error('Function not implemented.');
 }
 
-export { crateInitialPayJoinTx, sendPayJoinRequest, finalizeAndBroadcast, broadcastTransaction };
+export { createInitialPayJoinTx, sendPayJoinRequest, finalizeAndBroadcast, broadcastTransaction };
 
