@@ -40,7 +40,8 @@ npm i payjoin-react-native
 ```
 ## Roadmap
 
-- [x] NPM / Open source
 - [ ] Example
 - [ ] Demo project
+- [ ] Lightning compatiblity
+- [ ] Android & iOS support
 
