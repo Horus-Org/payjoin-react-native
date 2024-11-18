@@ -6,6 +6,7 @@ interface Utxo {
   txid: string;
   vout: number;
   hex: string;
+  timelock: number;
 }
 
 interface PayJoinResponse {
