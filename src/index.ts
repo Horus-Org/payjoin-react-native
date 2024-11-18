@@ -1,5 +1,6 @@
 import bitcoin from 'bitcoinjs-lib';
 import axios from 'axios';
+import { NativeModules, Platform } from 'react-native';
 
 // Define types for UTXO and PayJoin response
 interface Utxo {
@@ -78,6 +79,17 @@ function broadcastTransaction(txHex: any) {
 function fetchUtxos(senderAddress: string): Utxo[] | PromiseLike<Utxo[]> {
   throw new Error('Function not implemented.');
 }
+
+
+const { YourLibrary } = NativeModules;
+
+const sampleMethod = async (input: string): Promise<string> => {
+  return await YourLibrary.sampleMethod(input);
+};
+
+export default {
+  sampleMethod,
+};
 
 export { createInitialPayJoinTx, sendPayJoinRequest, finalizeAndBroadcast, broadcastTransaction };
 
