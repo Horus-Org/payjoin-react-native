@@ -7,6 +7,20 @@ interface Utxo {
   vout: number;
   hex: string;
   timelock: number;
+  amount: number;
+  address: string;
+  preimage: string;
+  scriptPubKey: string;
+  confirmations: number;
+  is_coinbase: boolean;
+
+}
+
+interface Payjoin {
+  psbt: string;
+}
+interface PayJoinRequest {
+  psbt: string;
 }
 
 interface PayJoinResponse {
