@@ -42,6 +42,6 @@ npm i payjoin-react-native
 
 - [x] Example
 - [x] Demo project
-- [ ] Lightning compatiblity
-- [ ] Android & iOS support
+- [x] Lightning compatiblity
+- [x] Android & iOS support
 
