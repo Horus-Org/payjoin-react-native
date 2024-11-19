@@ -2,7 +2,7 @@
 
 ⚠️**Alpha Software**
 
-[![NPM version](https://img.shields.io/npm/v/payjoin-react-native.svg)](https://npmjs.org/package/payjoin-react-native)
+[![NPM version](https://img.shields.io/npm/v/payjoin-react-native.svg)](https://www.npmjs.com/package/payjoin-react-native)
 [![Bitcoin-only](https://img.shields.io/badge/bitcoin-only-FF9900?logo=bitcoin)](https://twentyone.world)
 
 React Native Library to Payjoin
