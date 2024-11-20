@@ -91,5 +91,14 @@ export default {
   sampleMethod,
 };
 
-export { createInitialPayJoinTx, sendPayJoinRequest, finalizeAndBroadcast, broadcastTransaction };
+const tests = [
+  {
+    name: 'Sample Test',
+    test: async () => {
+      const result = await sampleMethod('test');
+      console.log(result);
+    },
+  },
+];
 
+export { createInitialPayJoinTx, sendPayJoinRequest, finalizeAndBroadcast, broadcastTransaction };
