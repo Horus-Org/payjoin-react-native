@@ -44,4 +44,5 @@ npm i payjoin-react-native
 - [x] Demo project
 - [x] Lightning compatiblity
 - [x] Android & iOS support
+- [ ] Rust bindings
 
