@@ -38,6 +38,20 @@ Instructions for installing the package and integrating it into your React Nativ
 ```npm
 npm i payjoin-react-native
 ```
+
+### Contributing
+
+Contributions are welcome! If you would like to contribute to the project, please follow these guidelines:
+
+1. Fork the repository.
+2. Create a new branch for your feature or bug fix.
+3. Write tests for your changes.
+4. Submit a pull request with a description of your changes.
+
+### License
+
+This project is licensed under the MIT License.
+
 ## Roadmap
 
 - [x] Example
