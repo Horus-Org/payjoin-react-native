@@ -54,9 +54,5 @@ This project is licensed under the MIT License.
 
 ## Roadmap
 
-- [x] Example
-- [x] Demo project
-- [x] Lightning compatiblity
-- [x] Android & iOS support
 - [ ] Rust bindings
 
