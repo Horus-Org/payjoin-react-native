@@ -1,4 +1,4 @@
-package com.yourlibrary;
+package com.PayjoinAndroid.package;
 
 import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.NativeModule;
