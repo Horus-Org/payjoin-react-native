@@ -76,7 +76,7 @@ async function finalizeAndBroadcast(
   modifiedPsbt: bitcoin.Psbt,
   senderPrivateKey: string
 ): Promise<void> {
-  const keyPair = bitcoin.payments.p2pkh({ wif: senderPrivateKey }).keys[0];
+  const keyPair = bitcoin.fromWIF(senderPrivateKey);
 
   // Sign the transaction
   modifiedPsbt.signAllInputs(keyPair);
@@ -84,17 +84,15 @@ async function finalizeAndBroadcast(
   // Validate and finalize
 
   modifiedPsbt.validateSignaturesOfAllInputs((pubkey, msghash, signature) => {
-    return bitcoin.verify(msghash, pubkey, signature);
-  });
-  modifiedPsbt.finalizeAllInputs();
+    return bitcoin.fromPublicKey(pubkey).verify(msghash, signature);
+  });  modifiedPsbt.finalizeAllInputs();
 
   const txHex = modifiedPsbt.extractTransaction().toHex();
 
   // Broadcast transaction (placeholder logic)
   await broadcastTransaction(txHex);
 
-}// Fetch UTXOs for a given address (placeholder implementation)
-async function fetchUtxos(senderAddress: string): Promise<Utxo[]> {
+}// Fetch UTXOs for a given address (placeholder implementation)async function fetchUtxos(senderAddress: string): Promise<Utxo[]> {
   // Replace with actual API call to fetch UTXOs
   return [
     {
@@ -103,24 +101,23 @@ async function fetchUtxos(senderAddress: string): Promise<Utxo[]> {
       hex: 'dummy-hex',
       timelock: 0,
       amount: 1000000,
-      address: senderAddress,
+      address: address,
       preimage: '',
       scriptPubKey: '',
       confirmations: 10,
       is_coinbase: false,
     },
-  ];
-}
+  ];}
 
 async function broadcastTransaction(txHex: string): Promise<void> {
   console.log(`Broadcasting transaction: ${txHex}`);
   // Implement actual broadcasting logic using a Bitcoin node or API
 }
 
-const { YourLibrary } = NativeModules;
+const PayjoinReactNative = NativeModules.PayjoinReactNative;
 
 const sampleMethod = async (input: string): Promise<string> => {
-  return await YourLibrary.sampleMethod(input);
+  return await PayjoinReactNative.sampleMethod(input);
 };
 
 export default {
