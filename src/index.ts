@@ -14,6 +14,9 @@ interface Utxo {
   scriptPubKey: string;
   confirmations: number;
   is_coinbase: boolean;
+  mempool: string;
+  height: number;
+
 
 }
 
