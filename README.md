@@ -21,6 +21,7 @@ The library is fully compatible with Bitcoin Core and other Bitcoin-compatible A
 - **React Native Framework**: Built specifically for mobile platforms, leveraging React Native for cross-platform compatibility.
 - **Secure and Private**: Enhances privacy by obfuscating input ownership, protecting against blockchain analysis.
 - **Easy Setup and Configuration**: User-friendly API to connect and start performing Payjoin transactions with minimal setup.
+- **Android and iOS Support**: Supports both Android and iOS platforms, ensuring broad reach and compatibility.
 
 ## Main Functions
 
