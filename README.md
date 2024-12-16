@@ -56,4 +56,5 @@ This project is licensed under the MIT License.
 ## Roadmap
 
 - [ ] Rust bindings
+- [ ] Web support (PWA)
 
