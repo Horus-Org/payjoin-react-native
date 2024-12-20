@@ -6,4 +6,6 @@ edition = "2021"
 [dependencies]
 payjoin = "0.21.0"
 
-[lib]
+[[bin]]
+
+lib = true
