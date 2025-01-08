@@ -1,5 +1,5 @@
-[pakcage]
-name = "rust"
+[package]
+name = "rus-payjoin-rn"
 version = "0.1.0"
 edition = "2021"
 
@@ -7,5 +7,5 @@ edition = "2021"
 payjoin = "0.22.0"
 
 [[bin]]
-
-lib = true
+name = "rus-payjoin-rn"
+path = "src/lib.rs" # Ensure this file exists
