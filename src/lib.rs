@@ -9,7 +9,7 @@ fn main() {
         .expect("Failed to parse URL");
 
     // Convert URL to PjUri
-    let pjuri = PjUri::from(&url).expect("Failed to create PjUri from URL");
+    let pjuri = PjUri::from(&url).amount.label.message.expect("Failed to create PjUri from URL");
     
     // Convert PjUri to string
     let pjuri_str = pjuri.to_string();
