@@ -9,14 +9,14 @@ fn main() {
         .expect("Failed to parse URL");
 
     // Convert URL to PjUri
-    let pjuri = PjUri::from(&url).amount.label.message.expect("Failed to create PjUri from URL");
+    let pjuri = PjUri::from_url(&url).expect("Failed to create PjUri from URL");
     
     // Convert PjUri to string
     let pjuri_str = pjuri.to_string();
     println!("PjUri as string: {}", pjuri_str);
     
     // Convert string back to PjUri
-    let pjuri_parsed = PjUri::from(&pjuri_str).amount.message.expect("Failed to parse PjUri from string");
+    let pjuri_parsed = PjUri::from_str(&pjuri_str).expect("Failed to parse PjUri from string");
     
     // Convert PjUri back to URL
     let final_url = pjuri_parsed.to_url().expect("Failed to convert PjUri to URL");
