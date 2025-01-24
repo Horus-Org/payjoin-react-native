@@ -55,7 +55,7 @@ This project is licensed under the MIT License.
 
 ## Roadmap
 
-- [ ] Rust bindings (Payjoin Dev Kit)
+- [x] Rust bindings (Payjoin Dev Kit)
 - [ ] Web support (PWA)
 - [ ] Beta version
 - [ ] Payjoin V2
