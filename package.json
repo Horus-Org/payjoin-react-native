@@ -32,6 +32,6 @@
     "react-native-crypto": "^2.2.0"
   },
   "devDependencies": {
-    "@types/node": "^22.13.1"
+    "@types/node": "^22.13.2"
   }
 }
