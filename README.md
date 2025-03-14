@@ -39,6 +39,11 @@ Instructions for installing the package and integrating it into your React Nativ
 ```npm
 npm i payjoin-react-native
 ```
+or
+
+```yarn
+yarn install payjoin-react-native
+```
 
 ### Contributing
 
