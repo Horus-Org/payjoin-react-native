@@ -28,7 +28,7 @@
     "bip39": "^3.1.0",
     "bitcoinjs-lib": "^7.0.0-rc.0",
     "elliptic": "^6.6.1",
-    "react": "18.3.1",
+    "react": "19.1.0",
     "react-native": "^0.77.1",
     "react-native-crypto": "^2.2.0"
   },
