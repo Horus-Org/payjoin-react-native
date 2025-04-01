@@ -8,3 +8,4 @@ Cargo.toml
 *.so
 *.dll
 *.dylib
+.test
