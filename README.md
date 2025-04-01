@@ -58,6 +58,10 @@ Contributions are welcome! If you would like to contribute to the project, pleas
 
 This project is licensed under the MIT License.
 
+## Wallets use PRN
+
+- [Firebolt Wallet](https://github.com/AreaLayer/firebolt-react-native)
+
 ## Roadmap
 
 - [ ] Web support (PWA)
