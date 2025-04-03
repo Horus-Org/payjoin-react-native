@@ -4,7 +4,7 @@ version = "0.1.2"
 edition = "2021"
 
 [dependencies]
-payjoin = "0.22.0"
+payjoin = "0.23.0"
 
 [[bin]]
 name = "rus-payjoin-rn"
