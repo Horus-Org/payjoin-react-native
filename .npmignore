@@ -9,3 +9,9 @@ Cargo.toml
 *.dll
 *.dylib
 .test
+ios.swift
+library.m
+gradle.properties
+module.kt
+package.java
+codeql.yml
