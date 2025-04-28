@@ -1,6 +1,6 @@
 {
   "name": "payjoin-react-native",
-  "version": "1.0.7-alpha",
+  "version": "1.0.8-alpha",
   "description": "Library to Payjoin written in react native",
   "main": "index.ts",
   "scripts": {
