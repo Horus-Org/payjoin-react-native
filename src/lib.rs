@@ -1,9 +1,9 @@
 use bitcoin::Network;
 use payjoin::{PjUri, Uri}; // Import Uri for initial parsing
-use payjoin::bitcoin_uri::network::UriExt as BitcoinUriNetworkExt; // For require_network on Uri
-use payjoin::uri::UriExt as PayjoinUriExt; // For check_pj_supported
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
+    use payjoin::UriExt;
+    
     // Define the network
     let network = Network::Testnet;
 
@@ -59,11 +59,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("Final address: {} (valid for {:?})", final_address, network);
 
     Ok(())
-}#[cfg(test)]
-mod tests {
-    use super::*;
 
-    // Note: Imports from main are implicitly available here due to `use super::*;`
+}#[cfg(test)]mod tests {    use super::*;    // Note: Imports from main are implicitly available here due to `use super::*;`
     // but explicit imports for traits are good practice if used directly in test functions.
     // use payjoin::{PjUri, Uri};
     // use payjoin::bitcoin_uri::network::UriExt as BitcoinUriNetworkExt;
@@ -71,6 +68,8 @@ mod tests {
 
     #[test]
     fn test_payjoin_uri_parsing() -> Result<(), Box<dyn std::error::Error>> {
+        use payjoin::UriExt;
+        
         let network = Network::Testnet;
         let test_uri_str = "bitcoin:tb1q6rz28mcfaxtmd6v789l9rrlrusd9rarc0mh4d0?amount=0.001&pj=https://example.com/payjoin";
 
@@ -95,5 +94,4 @@ mod tests {
         assert_eq!(payjoin_endpoint.as_str(), "https://example.com/payjoin");
 
         Ok(())
-    }
-}
+    }}
