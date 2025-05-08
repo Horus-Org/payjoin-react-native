@@ -816,7 +816,9 @@ dependencies = [
 name = "rus-payjoin-rn"
 version = "0.1.2"
 dependencies = [
+ "bitcoin",
  "payjoin",
+ "url",
 ]
 
 [[package]]

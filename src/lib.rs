@@ -1,70 +1,96 @@
-use std::str::FromStr;
-use payjoin::bitcoin::{Amount, Network};
-use payjoin::PjUri; // PjUri is publicly available at the crate root
+use bitcoin::Network;
+use payjoin::PjUri;
+use payjoin::IntoUrl;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
-    // Set the network to Testnet
+    // Define the network
     let network = Network::Testnet;
 
-    // Example BIP-21 PayJoin URI
-    let uri_str = "bitcoin:tb1q6rz28mcfaxtmd6v789l9rrlrusd9rarc0mh4d0?amount=0.001&pj=https://example.com/payjoin";
+    // Example PayJoin URI
+    let uri = "bitcoin:tb1q6rz28mcfaxtmd6v789l9rrlrusd9rarc0mh4d0?amount=0.001&pj=https://example.com/payjoin";
+    
+    // Parse URI into PjUri
+    let pj_uri = PjUri::try_from(uri)?;
+    let address = pj_uri.address();
 
-    // Parse the URI directly into a PjUri using from_str
-    let pj_uri = PjUri::from(uri_str)?;
-    println!("Parsed PjUri: {:?}", pj_uri);
+    println!("Parsed PayJoin URI: {:?}", pj_uri);
 
-    // Extract and display fields
-    let address = pj_uri.address().require_network(network)?;
-    println!("Address: {}", address);
+    // Validate and print the address
+    if address.is_valid_for_network(network) {
+        println!("Address: {}", address);
+    } else {
+        return Err("Address is not valid for the specified network".into());
+    }
+
+    // Print the amount if present
+    if let Some(amount) = pj_uri.amount() {
+        println!("Amount: {} BTC", amount.to_btc());
+    }
+
+    // Print the PayJoin endpoint if present
+    if let Some(endpoint) = pj_uri.pj() {
+        println!("PayJoin endpoint: {}", endpoint);
+    }
+
+    // Reconstruct and reparse the URI to verify round-trip correctness
+    let mut uri_string = format!("bitcoin:{}", address);
+    let mut query_parts = Vec::new();
 
     if let Some(amount) = pj_uri.amount() {
-        let amount_btc = amount.to_btc();
-        println!("Amount: {} BTC", amount_btc);
+        query_parts.push(format!("amount={}", amount.to_btc()));
     }
 
-    if let Some(pj_endpoint) = pj_uri.pj() {
-        println!("PayJoin endpoint: {}", pj_endpoint);
+    if let Some(pj) = pj_uri.pj() {
+        query_parts.push(format!("pj={}", pj));
     }
 
-    // Round-trip: Convert back to string and reparse
-    let pj_uri_string = format!(
-        "bitcoin:{}?amount={}&pj={}",
-        address,
-        pj_uri.amount().unwrap_or(Amount::from_btc(0.0)?).to_btc(),
-        pj_uri.pj().unwrap_or(&payjoin::Url::parse("https://example.com")?),
-    );
-    println!("PjUri as string: {}", pj_uri_string);
+    if !query_parts.is_empty() {
+        uri_string.push('?');
+        uri_string.push_str(&query_parts.join("&"));
+    }
 
-    let reparsed_pj_uri = PjUri::from_str(&pj_uri_string)?;
-    println!("Reparsed PjUri: {:?}", reparsed_pj_uri);
+    println!("Reconstructed URI: {}", uri_string);
 
-    // Final validation
-    let final_address = reparsed_pj_uri.address().require_network(network)?;
-    println!("Final validated address: {}", final_address);
+    let reparsed_uri = PjUri::try_from(uri_string.as_str())?;
+    println!("Reparsed URI: {:?}", reparsed_uri);
+
+    // Final address check
+    let final_address = reparsed_uri.address();
+    if final_address.is_valid_for_network(network) {
+        println!("Final address: {}", final_address);
+    } else {
+        return Err("Final address is not valid for the specified network".into());
+    }
 
     Ok(())
 }
-
 #[cfg(test)]
 mod tests {
     use super::*;
 
     #[test]
-    fn test_pj_uri_parsing() {
+    fn test_payjoin_uri_parsing() -> Result<(), Box<dyn std::error::Error>> {
         let network = Network::Testnet;
-        let uri_str = "bitcoin:tb1q6rz28mcfaxtmd6v789l9rrlrusd9rarc0mh4d0?amount=0.001&pj=https://example.com/payjoin";
+        let test_uri = "bitcoin:tb1q6rz28mcfaxtmd6v789l9rrlrusd9rarc0mh4d0?amount=0.001&pj=https://example.com/payjoin";
 
-        let result = PjUri::from(uri_str);
-        assert!(result.is_ok(), "Failed to parse PjUri: {:?}", result.err());
+        let pj_uri = PjUri::try_from(test_uri)?;
 
-        let pj_uri = result.unwrap();
-        let address = pj_uri.address().require_network(network);
-        assert!(address.is_ok(), "Invalid address: {:?}", address.err());
-        assert_eq!(
-            address.unwrap().to_string(),
-            "tb1q6rz28mcfaxtmd6v789l9rrlrusd9rarc0mh4d0"
-        );
-        assert_eq!(pj_uri.amount().unwrap().to_btc(), 0.001);
-        assert_eq!(pj_uri.pj().unwrap().to_string(), "https://example.com/payjoin");
+        let address = pj_uri.address();
+        assert_eq!(address.to_string(), "tb1q6rz28mcfaxtmd6v789l9rrlrusd9rarc0mh4d0");
+        assert!(address.is_valid_for_network(network));
+
+        if let Some(amount) = pj_uri.amount() {
+            assert_eq!(amount.to_btc(), 0.001);
+        } else {
+            panic!("Amount should be present");
+        }
+
+        if let Some(endpoint) = pj_uri.pj() {
+            assert_eq!(endpoint.as_str(), "https://example.com/payjoin");
+        } else {
+            panic!("PayJoin endpoint should be present");
+        }
+
+        Ok(())
     }
 }

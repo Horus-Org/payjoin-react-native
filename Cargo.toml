@@ -5,6 +5,8 @@ edition = "2021"
 
 [dependencies]
 payjoin = "0.23.0"
+url = "2.5.0"       
+bitcoin = "0.32.3"
 
 [[bin]]
 name = "rus-payjoin-rn"
