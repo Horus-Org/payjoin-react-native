@@ -72,14 +72,16 @@ pub fn main() -> Result<(), String> {
     // use payjoin::uri::UriExt as PayjoinUriExt;
 
     #[test]
-    fn test_payjoin_uri_parsing() -> Result<(), Box<dyn std::error::Error>> {
+    fn test_payjoin_uri_parsing() -> Result<(), String> {
         use payjoin::UriExt;
         
         let network = Network::Testnet;
         let test_uri_str = "bitcoin:tb1q6rz28mcfaxtmd6v789l9rrlrusd9rarc0mh4d0?amount=0.001&pj=https://example.com/payjoin";
 
-        let unchecked_uri: Uri<'_, bitcoin::address::NetworkUnchecked> = Uri::try_from(test_uri_str)?;
-        let checked_uri = unchecked_uri.require_network(network)?;
+        let unchecked_uri: Uri<'_, bitcoin::address::NetworkUnchecked> = Uri::try_from(test_uri_str)
+            .map_err(|e| e.to_string())?;
+        let checked_uri = unchecked_uri.require_network(network)
+            .map_err(|e| e.to_string())?;
         let pj_uri: PjUri<'_> = checked_uri
             .check_pj_supported()
             .map_err(|uri_box| format!("Test URI does not support Payjoin: {}", uri_box))?;
@@ -99,4 +101,5 @@ pub fn main() -> Result<(), String> {
         assert_eq!(payjoin_endpoint.as_str(), "https://example.com/payjoin");
 
         Ok(())
-    }}
+    }
+}
