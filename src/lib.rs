@@ -1,95 +1,98 @@
 use bitcoin::Network;
-use payjoin::PjUri;
-use payjoin::IntoUrl;
+use payjoin::{PjUri, Uri}; // Import Uri for initial parsing
+use payjoin::bitcoin_uri::network::UriExt as BitcoinUriNetworkExt; // For require_network on Uri
+use payjoin::uri::UriExt as PayjoinUriExt; // For check_pj_supported
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Define the network
     let network = Network::Testnet;
 
     // Example PayJoin URI
-    let uri = "bitcoin:tb1q6rz28mcfaxtmd6v789l9rrlrusd9rarc0mh4d0?amount=0.001&pj=https://example.com/payjoin";
-    
-    // Parse URI into PjUri
-    let pj_uri = PjUri::try_from(uri)?;
-    let address = pj_uri.address();
+    let uri_str = "bitcoin:tb1q6rz28mcfaxtmd6v789l9rrlrusd9rarc0mh4d0?amount=0.001&pj=https://example.com/payjoin";
+
+    // 1. Parse into a generic URI with unchecked network
+    let unchecked_uri: Uri<'_, bitcoin::address::NetworkUnchecked> = Uri::try_from(uri_str)?;
+
+    // 2. Validate and set the network for the URI's address
+    let checked_uri: Uri<'_, bitcoin::address::NetworkChecked> = unchecked_uri.require_network(network)?;
+
+    // 3. Check for Payjoin support and convert to PjUri
+    let pj_uri: PjUri<'_> = checked_uri
+        .check_pj_supported()
+        .map_err(|uri_box| format!("URI does not support Payjoin: {}", uri_box))?;
+
+    let address = pj_uri.address;
 
     println!("Parsed PayJoin URI: {:?}", pj_uri);
 
-    // Validate and print the address
-    if address.is_valid_for_network(network) {
-        println!("Address: {}", address);
-    } else {
-        return Err("Address is not valid for the specified network".into());
-    }
+    // The address is now guaranteed to be valid for the specified network
+    // because `require_network(network)` succeeded.
+    println!("Address: {} (valid for {:?})", address, network);
 
     // Print the amount if present
-    if let Some(amount) = pj_uri.amount() {
+    if let Some(amount) = pj_uri.amount { // amount is a field
         println!("Amount: {} BTC", amount.to_btc());
     }
 
     // Print the PayJoin endpoint if present
-    if let Some(endpoint) = pj_uri.pj() {
-        println!("PayJoin endpoint: {}", endpoint);
-    }
+    // pj_uri.extras is PayjoinExtras, which has an endpoint() method.
+    // This endpoint is guaranteed to be present in a PjUri.
+    let payjoin_endpoint = pj_uri.extras.endpoint();
+    println!("PayJoin endpoint: {}", payjoin_endpoint);
 
     // Reconstruct and reparse the URI to verify round-trip correctness
-    let mut uri_string = format!("bitcoin:{}", address);
-    let mut query_parts = Vec::new();
+    // PjUri implements Display, which gives the canonical string.
+    let reconstructed_uri_string = pj_uri.to_string();
+    println!("Reconstructed URI (using pj_uri.to_string()): {}", reconstructed_uri_string);
 
-    if let Some(amount) = pj_uri.amount() {
-        query_parts.push(format!("amount={}", amount.to_btc()));
-    }
-
-    if let Some(pj) = pj_uri.pj() {
-        query_parts.push(format!("pj={}", pj));
-    }
-
-    if !query_parts.is_empty() {
-        uri_string.push('?');
-        uri_string.push_str(&query_parts.join("&"));
-    }
-
-    println!("Reconstructed URI: {}", uri_string);
-
-    let reparsed_uri = PjUri::try_from(uri_string.as_str())?;
-    println!("Reparsed URI: {:?}", reparsed_uri);
+    // Reparse (same logic as above)
+    let unchecked_reparsed_uri: Uri<'_, bitcoin::address::NetworkUnchecked> = Uri::try_from(reconstructed_uri_string.as_str())?;
+    let checked_reparsed_uri = unchecked_reparsed_uri.require_network(network)?;
+    let reparsed_pj_uri: PjUri<'_> = checked_reparsed_uri
+        .check_pj_supported()
+        .map_err(|uri_box| format!("Reparsed URI does not support Payjoin: {}", uri_box))?;
+    println!("Reparsed URI: {:?}", reparsed_pj_uri);
 
     // Final address check
-    let final_address = reparsed_uri.address();
-    if final_address.is_valid_for_network(network) {
-        println!("Final address: {}", final_address);
-    } else {
-        return Err("Final address is not valid for the specified network".into());
-    }
+    let final_address = reparsed_pj_uri.address;
+    // This address is also guaranteed to be valid for the network.
+    println!("Final address: {} (valid for {:?})", final_address, network);
 
     Ok(())
-}
-#[cfg(test)]
+}#[cfg(test)]
 mod tests {
     use super::*;
+
+    // Note: Imports from main are implicitly available here due to `use super::*;`
+    // but explicit imports for traits are good practice if used directly in test functions.
+    // use payjoin::{PjUri, Uri};
+    // use payjoin::bitcoin_uri::network::UriExt as BitcoinUriNetworkExt;
+    // use payjoin::uri::UriExt as PayjoinUriExt;
 
     #[test]
     fn test_payjoin_uri_parsing() -> Result<(), Box<dyn std::error::Error>> {
         let network = Network::Testnet;
-        let test_uri = "bitcoin:tb1q6rz28mcfaxtmd6v789l9rrlrusd9rarc0mh4d0?amount=0.001&pj=https://example.com/payjoin";
+        let test_uri_str = "bitcoin:tb1q6rz28mcfaxtmd6v789l9rrlrusd9rarc0mh4d0?amount=0.001&pj=https://example.com/payjoin";
 
-        let pj_uri = PjUri::try_from(test_uri)?;
+        let unchecked_uri: Uri<'_, bitcoin::address::NetworkUnchecked> = Uri::try_from(test_uri_str)?;
+        let checked_uri = unchecked_uri.require_network(network)?;
+        let pj_uri: PjUri<'_> = checked_uri
+            .check_pj_supported()
+            .map_err(|uri_box| format!("Test URI does not support Payjoin: {}", uri_box))?;
 
-        let address = pj_uri.address();
+        let address = pj_uri.address; // address is a field
         assert_eq!(address.to_string(), "tb1q6rz28mcfaxtmd6v789l9rrlrusd9rarc0mh4d0");
-        assert!(address.is_valid_for_network(network));
+        // The network validity is ensured by `require_network(network)` succeeding.
 
-        if let Some(amount) = pj_uri.amount() {
+        if let Some(amount) = pj_uri.amount { // amount is a field
             assert_eq!(amount.to_btc(), 0.001);
         } else {
             panic!("Amount should be present");
         }
 
-        if let Some(endpoint) = pj_uri.pj() {
-            assert_eq!(endpoint.as_str(), "https://example.com/payjoin");
-        } else {
-            panic!("PayJoin endpoint should be present");
-        }
+        // pj_uri.extras.endpoint() returns &Url, which is guaranteed in PjUri
+        let payjoin_endpoint = pj_uri.extras.endpoint();
+        assert_eq!(payjoin_endpoint.as_str(), "https://example.com/payjoin");
 
         Ok(())
     }
