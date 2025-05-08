@@ -1,0 +1,5 @@
+apply plugin: 'com.android.application'
+
+android { compileSdkVersion 33 defaultConfig { applicationId "com.payjoinreactnative" minSdkVersion 24 targetSdkVersion 33 versionCode 1 versionName "1.0" } }
+
+dependencies { implementation fileTree(dir: 'libs', include: ['*.jar']) implementation 'com.facebook.react:react-native:+' implementation project(':payjoin-react-native') }

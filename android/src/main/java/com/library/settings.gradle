@@ -1,0 +1,3 @@
+rootProject.name = 'PayjoinReactNative'
+
+include ':app' include ':payjoin-react-native' project(':payjoin-react-native').projectDir = new File(rootProject.projectDir, '../android')
