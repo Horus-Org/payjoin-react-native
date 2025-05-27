@@ -1,3 +1,7 @@
 rootProject.name = 'PayjoinReactNative'
 
-include ':app' include ':payjoin-react-native' project(':payjoin-react-native').projectDir = new File(rootProject.projectDir, '../android')
+include ':payjoin-react-native'
+project(':payjoin-react-native').projectDir = new File(rootProject.projectDir, '../node_modules/payjoin-react-native/android')
+dependencies {
+    implementation 'org.bitcoinj:bitcoinj-core:0.16.2'
+}

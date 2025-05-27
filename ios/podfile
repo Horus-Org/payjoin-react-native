@@ -1,4 +1,4 @@
-platform :ios, '12.0'
+platform :ios, '18.0'
 
 target 'PayjoinReactNative' do
   use_frameworks!
@@ -14,6 +14,7 @@ target 'PayjoinReactNative' do
   ]
   pod 'React-Core', :path => '../node_modules/react-native'
   pod 'React-RCTLinking', :path => '../node_modules/react-native/React'
+  pod 'LibWally', '~> 0.3'
 
   # Add Payjoin native module
   pod 'PayjoinReactNative', :path => '../ios'
