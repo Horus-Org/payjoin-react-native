@@ -66,5 +66,5 @@ This project is licensed under the MIT License.
 
 - [ ] Web support (PWA) by WASM
 - [ ] Beta version
-- [ ] Payjoin V2
+- [x] Payjoin V2
 - [ ] Out of beta
