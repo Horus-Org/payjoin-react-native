@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/Horus-Org/payjoin-react-native#readme",
   "dependencies": {
-    "assemblyscript": "^0.28.0",
+    "assemblyscript": "^0.28.2",
     "axios": "^1.9.0",
     "base-x": "^5.0.1",
     "bip32": "^5.0.0-rc.0",
