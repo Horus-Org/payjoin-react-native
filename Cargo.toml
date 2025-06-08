@@ -1,6 +1,6 @@
 [package]
-name = "rus-payjoin-rn"
-version = "0.1.2"
+name = "rust-payjoin-rn"
+version = "0.1.3"
 edition = "2021"
 
 [dependencies]
@@ -9,5 +9,5 @@ url = "2.5.0"
 bitcoin = "0.32.6"
 
 [[bin]]
-name = "rus-payjoin-rn"
+name = "rust-payjoin-rn"
 path = "src/lib.rs" # Ensure this file exists

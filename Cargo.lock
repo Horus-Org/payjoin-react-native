@@ -813,8 +813,8 @@ dependencies = [
 ]
 
 [[package]]
-name = "rus-payjoin-rn"
-version = "0.1.2"
+name = "rust-payjoin-rn"
+version = "0.1.3"
 dependencies = [
  "bitcoin",
  "payjoin",
