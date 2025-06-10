@@ -1,6 +1,13 @@
 use bitcoin::Network;
 use payjoin::{PjUri, Uri}; // Import Uri for initial parsing
 
+pub fn process_payjoin(psbt: String, destination: String) -> String {
+    // Placeholder: Implement Payjoin logic here
+    format!("Processed PSBT: {} for destination: {}", psbt, destination)
+}
+
+
+
 pub fn main() -> Result<(), String> {
     use payjoin::UriExt;
     

@@ -1,0 +1,4 @@
+namespace payjoin {
+  // Example function to process a Payjoin transaction
+  string process_payjoin(string psbt, string destination);
+}

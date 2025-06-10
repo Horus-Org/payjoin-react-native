@@ -7,6 +7,7 @@ edition = "2021"
 payjoin = "0.23.0"
 url = "2.5.0"       
 bitcoin = "0.32.6"
+uniffi = "0.29.3"
 
 [[bin]]
 name = "rust-payjoin-rn"
