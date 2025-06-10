@@ -2,7 +2,7 @@ import * as bitcoin from 'bitcoinjs-lib';
 import axios from 'axios';
 import { Buffer } from 'buffer';
 import { ECPairFactory } from 'ecpair';
-import * as ecc from '@bitcoinj-lib/tiny-secp256k1-asmjs';
+import * as ecc from 'tiny-secp256k1';
 
 // Initialize ECPair with secp256k1
 const ECPair = ECPairFactory(ecc);
@@ -76,17 +76,16 @@ function validatePayjoinPsbt(originalPsbt: bitcoin.Psbt, modifiedPsbt: bitcoin.P
 
     for (const origOutput of originalOutputs) {
       const matchingOutput = modifiedOutputs.find(
-        (out) => out.script.equals(origOutput.script) && out.value === origOutput.value,
-      );
+        (out) => Buffer.compare(Buffer.from(out.script), Buffer.from(origOutput.script)) === 0 && out.value === origOutput.value,      );
       if (!matchingOutput) {
         throw new Error('Receiver modified original outputs');
       }
     }
 
     // Check that additional inputs belong to receiver
-    const originalInputs = originalPsbt.data.inputs.map((input) => input.hash.toString('hex') + input.index);
-    const modifiedInputs = modifiedPsbt.data.inputs.map((input) => input.hash.toString('hex') + input.index);
-    const newInputs = modifiedInputs.filter((input) => !originalInputs.includes(input));
+    const originalInputs = originalPsbt.data.inputs.map((input) => (input.witnessUtxo?.script?.toString() ?? '') + (input ?? ''));      
+     const modifiedInputs = modifiedPsbt.data.inputs.map((input) => (input.witnessUtxo?.script?.toString() ?? '') + (input ?? ''));            
+     const newInputs = modifiedInputs.filter((input) => !originalInputs.includes(input));
 
     if (newInputs.length === 0) {
       throw new Error('Receiver did not contribute any inputs');
@@ -105,7 +104,7 @@ function validatePayjoinPsbt(originalPsbt: bitcoin.Psbt, modifiedPsbt: bitcoin.P
     for (let i = 0; i < originalPsbt.data.inputs.length; i++) {
       const origScript = originalPsbt.data.inputs[i].witnessUtxo?.script;
       const modScript = modifiedPsbt.data.inputs[i].witnessUtxo?.script;
-      if (origScript && modScript && !origScript.equals(modScript)) {
+      if (origScript && modScript && Buffer.compare(origScript, modScript) !== 0) {
         throw new Error('Receiver modified sender input scripts');
       }
     }
@@ -116,7 +115,6 @@ function validatePayjoinPsbt(originalPsbt: bitcoin.Psbt, modifiedPsbt: bitcoin.P
     return false;
   }
 }
-
 // Create initial PSBT with Payjoin V2 considerations
 async function createInitialPayJoinTx(
   senderAddress: string,
@@ -150,7 +148,7 @@ async function createInitialPayJoinTx(
         nonWitnessUtxo: Buffer.from(utxo.hex, 'hex'),
         witnessUtxo: {
           script: Buffer.from(utxo.scriptPubKey, 'hex'),
-          value: Number(utxo.amount), // Convert to number for bitcoinjs-lib
+          value: BigInt(utxo.amount),
         },
       });
       totalInput += utxo.amount;
@@ -159,7 +157,7 @@ async function createInitialPayJoinTx(
     // Add receiver output
     psbt.addOutput({
       address: receiverAddress,
-      value: Number(amountToSend), // Convert to number
+      value: amountToSend,
     });
 
     // Estimate transaction size (rough: ~148 bytes/input, ~34 bytes/output)
@@ -172,7 +170,7 @@ async function createInitialPayJoinTx(
     if (change > BigInt(546)) { // Dust threshold
       psbt.addOutput({
         address: senderAddress,
-        value: Number(change), // Convert to number
+        value: change,
       });
     }
 
@@ -183,7 +181,6 @@ async function createInitialPayJoinTx(
     throw new Error(`Failed to create initial PSBT: ${error.message}`);
   }
 }
-
 // Send PSBT to receiver's PayJoin endpoint
 async function sendPayJoinRequest(psbt: bitcoin.Psbt, endpoint: string, network: bitcoin.Network): Promise<bitcoin.Psbt> {
   try {
