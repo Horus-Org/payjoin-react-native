@@ -68,4 +68,5 @@ This project is licensed under the MIT License.
 - [x] Uniffi
 - [x] Beta version
 - [x] Payjoin V2
+- [ ] Fix bugs and issues with Klotin and Swift
 - [ ] Out of beta
