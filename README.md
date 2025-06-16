@@ -1,6 +1,6 @@
 # Payjoin React Native
 
-⚠️**Alpha Software**
+⚠️**Beta Software**
 
 [![NPM version](https://img.shields.io/npm/v/payjoin-react-native.svg)](https://www.npmjs.com/package/payjoin-react-native)
 [![Bitcoin-only](https://img.shields.io/badge/bitcoin-only-FF9900?logo=bitcoin)](https://twentyone.world)
@@ -65,7 +65,8 @@ This project is licensed under the MIT License.
 ## Roadmap
 
 - [ ] Web support (PWA) by WASM
-- [ ] Uniffi
-- [ ] Beta version
+- [x] Uniffi
+- [x] Beta version
 - [x] Payjoin V2
+- [ ] Fix bugs and issues with Klotin and Swift
 - [ ] Out of beta
