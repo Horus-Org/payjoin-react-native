@@ -70,3 +70,6 @@ This project is licensed under the MIT License.
 - [x] Payjoin V2
 - [ ] Fix bugs and issues with Klotin and Swift
 - [ ] Out of beta
+
+**Built independently with ❤️ to serve the Bitcoin community**
+
