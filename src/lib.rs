@@ -1,6 +1,5 @@
 use bitcoin::Network;
 use payjoin::{PjUri, Uri}; // Import Uri for initial parsing
-use super::payjoin::OHTTPKeys;
 
 pub fn process_payjoin(psbt: String, destination: String) -> String {
     // Placeholder: Implement Payjoin logic here
@@ -70,8 +69,7 @@ pub fn main() -> Result<(), String> {
     println!("Final address: {} (valid for {:?})", final_address, network);
 
     Ok(())
-}#[cfg(test)]
-mod tests {
+}#[cfg(test)]mod tests {
     // Note: Imports from main are implicitly available here due to `use super::*;`
     // but explicit imports for traits are good practice if used directly in test functions.
 }    // use payjoin::{PjUri, Uri};
