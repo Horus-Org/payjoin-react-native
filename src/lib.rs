@@ -1,5 +1,6 @@
 use bitcoin::Network;
 use payjoin::{PjUri, Uri}; // Import Uri for initial parsing
+use payjoin::OhttpKeys;
 
 pub fn process_payjoin(psbt: String, destination: String) -> String {
     // Placeholder: Implement Payjoin logic here
@@ -16,6 +17,9 @@ pub fn main() -> Result<(), String> {
 
     // Example PayJoin URI
     let uri_str = "bitcoin:tb1q6rz28mcfaxtmd6v789l9rrlrusd9rarc0mh4d0?amount=0.001&pj=https://example.com/payjoin";
+
+    // OHTTP Keys
+    let ohttp_keys = OhttpKeys(vec![]); // Initialize with empty vector or appropriate key configuration
 
     // 1. Parse into a generic URI with unchecked network
     let unchecked_uri: Uri<'_, bitcoin::address::NetworkUnchecked> = Uri::try_from(uri_str)
@@ -69,10 +73,8 @@ pub fn main() -> Result<(), String> {
     println!("Final address: {} (valid for {:?})", final_address, network);
 
     Ok(())
-}
 
-#[cfg(test)]mod tests {
-    use super::*;    // Note: Imports from main are implicitly available here due to `use super::*;`
+}#[cfg(test)]mod tests {    use super::*;    // Note: Imports from main are implicitly available here due to `use super::*;`
     // but explicit imports for traits are good practice if used directly in test functions.
     // use payjoin::{PjUri, Uri};
     // use payjoin::bitcoin_uri::network::UriExt as BitcoinUriNetworkExt;
