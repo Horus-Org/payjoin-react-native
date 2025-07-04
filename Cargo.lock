@@ -1037,7 +1037,7 @@ dependencies = [
 
 [[package]]
 name = "rust-payjoin-rn"
-version = "0.1.3"
+version = "0.1.4"
 dependencies = [
  "bitcoin",
  "payjoin",
