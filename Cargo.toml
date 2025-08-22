@@ -5,7 +5,7 @@ edition = "2024"
 
 [dependencies]
 payjoin = "0.24.0"
-url = "2.5.0"       
+url = "2.5.6"       
 bitcoin = "0.32.7"
 uniffi = "0.29.4"
 
