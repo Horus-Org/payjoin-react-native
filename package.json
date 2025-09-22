@@ -38,6 +38,6 @@
     "sha.js": "2.4.12"
   },
   "devDependencies": {
-    "@types/node": "^22.18.3"
+    "@types/node": "^22.18.6"
   }
 }
