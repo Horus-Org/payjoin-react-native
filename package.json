@@ -24,7 +24,7 @@
   "homepage": "https://github.com/Horus-Org/payjoin-react-native#readme",
   "dependencies": {
     "@bitcoin-js/tiny-secp256k1-asmjs": "^2.2.4",
-    "assemblyscript": "^0.28.8",
+    "assemblyscript": "^0.28.9",
     "axios": "^1.12.2",
     "base-x": "^5.0.1",
     "bip32": "^5.0.0",
@@ -38,6 +38,6 @@
     "sha.js": "2.4.12"
   },
   "devDependencies": {
-    "@types/node": "^22.18.10"
+    "@types/node": "^22.18.11"
   }
 }
